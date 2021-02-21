@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Avatar from "../../shared/components/UIElements/Avatar/Avatar";
 import Card from "../../shared/components/UIElements/Card/Card";
