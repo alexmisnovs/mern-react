@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 const NewPlace = props => {
   return <>wank</>;
