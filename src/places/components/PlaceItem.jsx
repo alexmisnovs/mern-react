@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Card from "../../shared/components/UIElements/Card/Card";
 import Modal from "../../shared/components/UIElements/Modal/Modal";
-import Button from "../../shared/FormElements/Button";
+import Button from "../../shared/components/FormElements/Button";
 import "./PlaceItem.css";
 
 function PlaceItem(props) {
