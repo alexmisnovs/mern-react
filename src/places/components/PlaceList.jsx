@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card/Card";
 import PlaceItem from "./PlaceItem";
 
@@ -10,7 +11,7 @@ function PlaceList(props) {
       <div className="place-list center">
         <Card>
           <h2>No places found.. Maybe add one</h2>
-          <button>Share a Place</button>
+          <Button to="/places/new">Share a Place</Button>
         </Card>
       </div>
     );
@@ -18,7 +19,16 @@ function PlaceList(props) {
     return (
       <ul className="place-list">
         {props.items.map(place => (
-          <PlaceItem key={place.id} id={place.id} image={place.imageUrl} title={place.title} desc={place.description} address={place.address} creatorId={place.creator} coordinates={place.location} />
+          <PlaceItem
+            key={place.id}
+            id={place.id}
+            image={place.imageUrl}
+            title={place.title}
+            desc={place.description}
+            address={place.address}
+            creatorId={place.creator}
+            coordinates={place.location}
+          />
         ))}
       </ul>
     );
