@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_EMAIL,
@@ -8,9 +8,12 @@ import { useForm } from "../../shared/hooks/form-hook";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card/Card";
+
+import AuthContext from "../../shared/context/auth-context";
 import "./Auth.css";
 
 const Auth = props => {
+  const appStateContext = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const [formState, inputHandler, setFormData] = useForm(
@@ -28,6 +31,9 @@ const Auth = props => {
   );
   const authSubmit = e => {
     e.preventDefault();
+    // temporary lets set appWideIslogged in to true
+    appStateContext.login();
+    console.log(appStateContext.isLoggedIn);
     console.log("pressed login button");
   };
   const switchHandler = () => {
