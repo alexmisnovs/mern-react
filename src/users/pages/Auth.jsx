@@ -13,7 +13,7 @@ import AuthContext from "../../shared/context/auth-context";
 import "./Auth.css";
 
 const Auth = props => {
-  const appStateContext = useContext(AuthContext);
+  const authStateContext = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const [formState, inputHandler, setFormData] = useForm(
@@ -29,12 +29,31 @@ const Auth = props => {
     },
     false
   );
-  const authSubmit = e => {
+  const authSubmit = async e => {
     e.preventDefault();
     // temporary lets set appWideIslogged in to true
-    appStateContext.login();
-    console.log(appStateContext.isLoggedIn);
-    console.log("pressed login button");
+    let responseData;
+    if (!isLoginMode) {
+      try {
+        const response = await fetch("http://localhost:5000/api/v1/users/signup", {
+          method: "post",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+        responseData = await response.json();
+        console.log(responseData);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    authStateContext.login();
   };
   const switchHandler = () => {
     if (!isLoginMode) {
@@ -59,6 +78,7 @@ const Auth = props => {
     }
     setIsLoginMode(prevMode => !prevMode);
     // alert("wanksa");
+    console.log(formState.isValid);
   };
   return (
     <Card className="authentication">
@@ -67,12 +87,12 @@ const Auth = props => {
       <form className="place-form" onSubmit={authSubmit}>
         {!isLoginMode && (
           <Input
-            id="username"
+            id="name"
             element="input"
-            type="username"
+            type="name"
             label="Your Name"
             validators={[VALIDATOR_REQUIRE()]}
-            errorMessage="please enter a valid username"
+            errorMessage="please enter a valid name"
             onInput={inputHandler}
             initialValue={formState.inputs.name.value}
             initialValidity={formState.inputs.name.isValid}
