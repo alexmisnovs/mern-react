@@ -29,7 +29,7 @@ const App = () => {
           <UpdatePlace />
         </Route>
 
-        <Redirect to="/" />
+        <Redirect to="/users" />
       </Switch>
     );
   } else {
