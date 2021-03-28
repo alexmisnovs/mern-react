@@ -35,10 +35,37 @@ const Auth = props => {
   const authSubmit = async e => {
     e.preventDefault();
     // temporary lets set appWideIslogged in to true
+    setIsLoading(true);
     let responseData;
+    if (isLoginMode) {
+      try {
+        // setError(null);
+        const response = await fetch("http://localhost:5000/api/v1/users/login", {
+          method: "post",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+        responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+
+        console.log(responseData);
+        setIsLoading(false);
+        authStateContext.login();
+      } catch (e) {
+        console.log(e);
+        setIsLoading(false);
+        setError(e.message || "Something went wrong signing up");
+      }
+    }
     if (!isLoginMode) {
       try {
-        setIsLoading(true);
         // setError(null);
         const response = await fetch("http://localhost:5000/api/v1/users/signup", {
           method: "post",
