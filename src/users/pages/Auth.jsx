@@ -52,7 +52,7 @@ const Auth = props => {
           }
         );
         console.log(responseData);
-        authStateContext.login();
+        authStateContext.login(responseData.user.id);
       } catch (e) {
         console.log(e);
       }
