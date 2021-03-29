@@ -3,39 +3,29 @@ import { useParams } from "react-router-dom";
 import UsersList from "../components/UsersList";
 import ErrorModal from "../../shared/components/UIElements/LoadingError/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingError/LoadingSpinner";
+import { useHttpFetchClient } from "../../shared/hooks/http-fetch-hook";
 
 const Users = props => {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpFetchClient();
   const [loadedUsers, setLoadedUsers] = useState();
 
   useEffect(() => {
-    setIsLoading(true);
-    const sendRequest = async () => {
+    const fetchUsers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/v1/users");
-        const responseData = await response.json();
-        console.log(responseData.users);
-        if (!response.ok) {
-          setError(responseData.message);
-          throw new Error(responseData.message);
-        }
+        const responseData = await sendRequest("http://localhost:5000/api/v1/users");
+
         setLoadedUsers(responseData.users);
       } catch (e) {
         console.log(e);
-        setError(e.message || "Something went wrong signing up");
       }
-      setIsLoading(false);
     };
-    sendRequest();
-  }, []);
-  const errorHandler = function () {
-    setError(null);
-  };
+    fetchUsers();
+  }, [sendRequest]);
+
   return (
     <>
-      <ErrorModal error={error} onClear={errorHandler} />
+      <ErrorModal error={error} onClear={clearError} />
       {isLoading && (
         <div className="center">
           <LoadingSpinner asOverlay />{" "}

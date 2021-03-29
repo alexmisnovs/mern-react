@@ -17,7 +17,7 @@ import "./Auth.css";
 const Auth = props => {
   const authStateContext = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [isLoading, error, sendRequest, clearError] = useHttpFetchClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpFetchClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {

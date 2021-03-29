@@ -37,9 +37,9 @@ const App = () => {
   } else {
     routes = (
       <Switch>
-        {/* <Route path="/users" exact>
+        <Route path="/users" exact>
           <Users />
-        </Route> */}
+        </Route>
         <Route path="/" exact>
           <div className="App">
             <h1>Whatsaaapp</h1>

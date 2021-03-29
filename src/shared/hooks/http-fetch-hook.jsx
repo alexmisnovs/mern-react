@@ -46,5 +46,5 @@ export const useHttpFetchClient = () => {
       activeHttpRequest.current.forEach(httpAbortController => httpAbortController.abort());
     };
   }, []);
-  return [isLoading, error, sendRequest, clearError];
+  return { isLoading, error, sendRequest, clearError };
 };
