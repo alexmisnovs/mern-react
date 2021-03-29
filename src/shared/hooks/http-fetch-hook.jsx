@@ -1,6 +1,6 @@
-import { useCallback, useState, useEffect, useCallback, useRef } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 
-export const useHttpFetchClien = () => {
+export const useHttpFetchClient = () => {
   const [isLoading, setIsLoading] = useState();
   const [error, setError] = useState();
 
@@ -28,9 +28,8 @@ export const useHttpFetchClien = () => {
       if (!response.ok) {
         throw new Error(responseData.message);
       }
-
-      return responseData;
       setIsLoading(false);
+      return responseData;
     } catch (err) {
       setError(err.message);
       setIsLoading(false);
@@ -47,5 +46,5 @@ export const useHttpFetchClien = () => {
       activeHttpRequest.current.forEach(httpAbortController => httpAbortController.abort());
     };
   }, []);
-  return { isLoading, error, sendRequest, clearError };
+  return [isLoading, error, sendRequest, clearError];
 };
