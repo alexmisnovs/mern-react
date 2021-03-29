@@ -40,6 +40,7 @@ export const useHttpFetchClient = () => {
   const clearError = () => {
     setError(null);
   };
+
   useEffect(() => {
     // cleanup
     return () => {
