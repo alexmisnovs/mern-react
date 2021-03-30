@@ -4,13 +4,18 @@ import Modal from "../../shared/components/UIElements/Modal/Modal";
 import Button from "../../shared/components/FormElements/Button";
 // import Map from "../../shared/components/UIElements/OpenLayerMap/Map";
 import Map from "../../shared/components/UIElements/MapBoxMap/Map";
+import { useHttpFetchClient } from "../../shared/hooks/http-fetch-hook";
 import AuthContext from "../../shared/context/auth-context";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingError/LoadingSpinner";
+import ErrorModal from "../../shared/components/UIElements/LoadingError/ErrorModal";
+
 import "./PlaceItem.css";
 
 function PlaceItem(props) {
   const appStateContext = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const { isLoading, error, sendRequest, clearError } = useHttpFetchClient();
 
   const openMapHandler = () => {
     setShowMap(true);
@@ -24,13 +29,21 @@ function PlaceItem(props) {
   const cancelDeleteHandler = () => {
     setShowConfirmModal(false);
   };
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
-    console.log("deleting..");
+    // ACTUALLY DELETE THE PLACE
+    try {
+      const responseData = await sendRequest(
+        `http://localhost:5000/api/v1/places/${props.id}`,
+        "DELETE"
+      );
+      props.onDelete(props.id);
+    } catch (error) {}
   };
 
   return (
     <>
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showMap}
         onCancel={closeMapHandler}
@@ -63,6 +76,7 @@ function PlaceItem(props) {
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
+          {isLoading && <LoadingSpinner asOverlay />}
           <div className="place-item__image">
             <img src={props.image} alt={props.title} />
           </div>
