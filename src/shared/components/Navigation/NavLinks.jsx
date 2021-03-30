@@ -18,7 +18,7 @@ function NavLinks(props) {
       {appStateContext.isLoggedIn && (
         <>
           <li>
-            <NavLink to="/:userId/places">My Places</NavLink>
+            <NavLink to={`/${appStateContext.userId}/places`}>My Places</NavLink>
           </li>
           <li>
             <NavLink to="/places/new">New Place</NavLink>
