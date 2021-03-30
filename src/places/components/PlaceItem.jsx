@@ -78,7 +78,7 @@ function PlaceItem(props) {
             {/* todo: only display buttons if you are the owner of the place */}
             {appStateContext.isLoggedIn && (
               <>
-                <Button to={`/places/${props.id}`}>Edit</Button>
+                <Button to={`/place/${props.id}`}>Edit</Button>
                 <Button onClick={showDeleteWarningHandler} danger>
                   Delete
                 </Button>
