@@ -90,7 +90,7 @@ function PlaceItem(props) {
               VIEW on MAP
             </Button>
             {/* todo: only display buttons if you are the owner of the place */}
-            {appStateContext.isLoggedIn && (
+            {appStateContext.isLoggedIn && appStateContext.userId === props.creatorId && (
               <>
                 <Button to={`/place/${props.id}`}>Edit</Button>
                 <Button onClick={showDeleteWarningHandler} danger>

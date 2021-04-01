@@ -11,6 +11,7 @@ import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card/Card";
 import ErrorModal from "../../shared/components/UIElements/LoadingError/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingError/LoadingSpinner";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import AuthContext from "../../shared/context/auth-context";
 import "./Auth.css";
 
@@ -35,7 +36,8 @@ const Auth = props => {
   const authSubmit = async e => {
     e.preventDefault();
     // temporary lets set appWideIslogged in to true
-
+    console.log(formState.inputs);
+    // return;
     let responseData;
     if (isLoginMode) {
       try {
@@ -86,6 +88,7 @@ const Auth = props => {
         {
           ...formState.inputs,
           name: undefined,
+          image: undefined,
         },
         formState.inputs.email.isValid && formState.inputs.email.isValid
       );
@@ -95,6 +98,10 @@ const Auth = props => {
           ...formState.inputs,
           name: {
             value: "",
+            isValid: false,
+          },
+          image: {
+            value: null,
             isValid: false,
           },
         },
@@ -115,18 +122,22 @@ const Auth = props => {
         <hr />
         <form className="place-form" onSubmit={authSubmit}>
           {!isLoginMode && (
-            <Input
-              id="name"
-              element="input"
-              type="name"
-              label="Your Name"
-              validators={[VALIDATOR_REQUIRE()]}
-              errorMessage="please enter a valid name"
-              onInput={inputHandler}
-              initialValue={formState.inputs.name.value}
-              initialValidity={formState.inputs.name.isValid}
-            />
+            <>
+              <Input
+                id="name"
+                element="input"
+                type="name"
+                label="Your Name"
+                validators={[VALIDATOR_REQUIRE()]}
+                errorMessage="please enter a valid name"
+                onInput={inputHandler}
+                initialValue={formState.inputs.name.value}
+                initialValidity={formState.inputs.name.isValid}
+              />
+              <ImageUpload id="image" center onInput={inputHandler} />
+            </>
           )}
+
           <Input
             id="email"
             element="input"
@@ -143,8 +154,8 @@ const Auth = props => {
             element="input"
             type="password"
             label="Password"
-            validators={[VALIDATOR_MINLENGTH(5)]}
-            errorMessage="password has to be at least 5 chars long"
+            validators={[VALIDATOR_MINLENGTH(6)]}
+            errorMessage="password has to be at least 6 chars long"
             onInput={inputHandler}
             initialValue={formState.inputs.password.value}
             initialValidity={formState.inputs.password.isValid}
