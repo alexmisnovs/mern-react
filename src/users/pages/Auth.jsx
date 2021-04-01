@@ -62,17 +62,15 @@ const Auth = props => {
 
     if (!isLoginMode) {
       try {
+        const formData = new FormData();
+        formData.append("name", formState.inputs.name.value);
+        formData.append("email", formState.inputs.email.value);
+        formData.append("password", formState.inputs.password.value);
+        formData.append("image", formState.inputs.image.value);
         const responseData = await sendRequest(
           "http://localhost:5000/api/v1/users/signup",
           "POST",
-          JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-          {
-            "Content-type": "application/json",
-          }
+          formData
         );
 
         console.log(responseData);
