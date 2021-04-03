@@ -7,6 +7,7 @@ import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpFetchClient } from "../../shared/hooks/http-fetch-hook";
 import ErrorModal from "../../shared/components/UIElements/LoadingError/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingError/LoadingSpinner";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import AuthContext from "../../shared/context/auth-context";
 import "./PlaceForm.css";
 
@@ -28,6 +29,10 @@ const NewPlace = props => {
         value: "",
         isValid: false,
       },
+      image: {
+        value: null,
+        isValid: false,
+      },
     },
     false
   );
@@ -39,17 +44,13 @@ const NewPlace = props => {
     //console.log(formState.inputs);
     console.log(authStateContext.userId);
     try {
-      await sendRequest(
-        "http://localhost:5000/api/v1/places",
-        "POST",
-        JSON.stringify({
-          title: formState.inputs.title.value,
-          description: formState.inputs.description.value,
-          address: formState.inputs.address.value,
-          creator: authStateContext.userId,
-        }),
-        { "Content-Type": "application/json" }
-      );
+      const formData = new FormData();
+      formData.append("title", formState.inputs.title.value);
+      formData.append("description", formState.inputs.description.value);
+      formData.append("address", formState.inputs.address.value);
+      formData.append("creator", authStateContext.userId);
+      formData.append("image", formState.inputs.image.value);
+      await sendRequest("http://localhost:5000/api/v1/places", "POST", formData);
       history.push("/");
       //redirect to a different page
     } catch (e) {
@@ -90,6 +91,7 @@ const NewPlace = props => {
           errorMessage="please enter a valid Address"
           onInput={inputHandler}
         />
+        <ImageUpload id="image" onInput={inputHandler} errorText="Please provide an image" />
         <Button type="submit" disabled={!formState.isValid}>
           Add Place
         </Button>
