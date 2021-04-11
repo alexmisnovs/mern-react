@@ -36,7 +36,6 @@ const Auth = props => {
   const authSubmit = async e => {
     e.preventDefault();
     // temporary lets set appWideIslogged in to true
-    console.log(formState.inputs);
     // return;
     let responseData;
     if (isLoginMode) {
@@ -53,8 +52,8 @@ const Auth = props => {
             "Content-type": "application/json",
           }
         );
-        console.log(responseData);
-        authStateContext.login(responseData.user.id);
+        // console.log(responseData);
+        authStateContext.login(responseData.userId, responseData.token);
       } catch (e) {
         console.log(e);
       }
@@ -74,7 +73,7 @@ const Auth = props => {
         );
 
         console.log(responseData);
-        authStateContext.login();
+        authStateContext.login(responseData.userId, responseData.token);
       } catch (e) {
         console.log(e);
       }

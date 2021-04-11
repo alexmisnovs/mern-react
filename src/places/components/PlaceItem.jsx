@@ -12,7 +12,7 @@ import ErrorModal from "../../shared/components/UIElements/LoadingError/ErrorMod
 import "./PlaceItem.css";
 
 function PlaceItem(props) {
-  const appStateContext = useContext(AuthContext);
+  const authStateContext = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpFetchClient();
@@ -35,7 +35,9 @@ function PlaceItem(props) {
     try {
       const responseData = await sendRequest(
         `http://localhost:5000/api/v1/places/${props.id}`,
-        "DELETE"
+        "DELETE",
+        null,
+        { Authorization: "Bearer " + authStateContext.token }
       );
       props.onDelete(props.id);
     } catch (error) {}
@@ -90,7 +92,7 @@ function PlaceItem(props) {
               VIEW on MAP
             </Button>
             {/* todo: only display buttons if you are the owner of the place */}
-            {appStateContext.isLoggedIn && appStateContext.userId === props.creatorId && (
+            {authStateContext.isLoggedIn && authStateContext.userId === props.creatorId && (
               <>
                 <Button to={`/place/${props.id}`}>Edit</Button>
                 <Button onClick={showDeleteWarningHandler} danger>

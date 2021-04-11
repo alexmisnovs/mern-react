@@ -50,11 +50,13 @@ const NewPlace = props => {
       formData.append("address", formState.inputs.address.value);
       formData.append("creator", authStateContext.userId);
       formData.append("image", formState.inputs.image.value);
-      await sendRequest("http://localhost:5000/api/v1/places", "POST", formData);
+      await sendRequest("http://localhost:5000/api/v1/places", "POST", formData, {
+        Authorization: "Bearer " + authStateContext.token,
+      });
       history.push("/");
       //redirect to a different page
     } catch (e) {
-      console.log(e);
+      console.log(`Couldn't send request ${e}`);
     }
   };
 
