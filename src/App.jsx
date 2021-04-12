@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import "./App.css";
 import NewPlace from "./places/pages/NewPlace";
@@ -8,50 +8,10 @@ import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Auth from "./users/pages/Auth";
 import Users from "./users/pages/Users";
 import AuthContext from "./shared/context/auth-context";
-
-let logoutTimer;
-
+import { useAuth } from "./shared/hooks/auth-hook";
 const App = () => {
   // app state..
-  const [token, setToken] = useState(false);
-  const [appTokenExpirationDate, setAppTokenExpirationDate] = useState();
-  const [userId, setUserId] = useState(null);
-
-  const login = useCallback((uid, token, expirationDate) => {
-    setToken(token);
-    const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60); // +1h
-    setAppTokenExpirationDate(tokenExpirationDate);
-    localStorage.setItem(
-      "userData",
-      JSON.stringify({ userId: uid, token, expiration: tokenExpirationDate.toISOString() })
-    );
-    setUserId(uid);
-  }, []);
-  const logout = useCallback(() => {
-    setToken(false);
-    setAppTokenExpirationDate(null);
-    setUserId(null);
-    localStorage.removeItem("userData");
-  }, []);
-
-  // check local storage for login info
-  // sadly shit will still load since useEffect loads after content first time.
-  // Could manage the isLoading stage and display a loading screen
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("userData"));
-    if (storedData && storedData.token && new Date(storedData.expiration) > new Date()) {
-      login(storedData.userId, storedData.token, storedData.expiration);
-    }
-  }, [login]);
-  // auto logout, not sure if thats a good practice really but ok
-  useEffect(() => {
-    if (token && appTokenExpirationDate) {
-      const tokenRemainingTime = appTokenExpirationDate.getTime() - new Date().getTime();
-      logoutTimer = setTimeout(logout, tokenRemainingTime);
-    } else {
-      clearTimeout(logoutTimer);
-    }
-  }, [token, logout, appTokenExpirationDate]);
+  const { token, userId, login, logout } = useAuth();
 
   let routes;
   if (token) {
