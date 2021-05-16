@@ -42,7 +42,7 @@ const UpdatePlace = props => {
         const responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`
         );
-        console.log(responseData.place);
+        // console.log(responseData.place);
         setLoadedPlace(responseData.place);
 
         setFormData(
@@ -53,6 +53,10 @@ const UpdatePlace = props => {
             },
             address: {
               value: loadedPlace.address,
+              isValid: true,
+            },
+            city: {
+              value: loadedPlace.city,
               isValid: true,
             },
             description: {
@@ -96,6 +100,7 @@ const UpdatePlace = props => {
         JSON.stringify({
           title: formState.inputs.title.value,
           address: formState.inputs.address.value,
+          city: formState.inputs.city.value,
           description: formState.inputs.description.value,
         }),
         { "Content-Type": "application/json", Authorization: "Bearer " + authStateContext.token }
@@ -140,6 +145,17 @@ const UpdatePlace = props => {
             errorMessage="please enter a valid address"
             onInput={inputHandler}
             initialValue={loadedPlace.address}
+            initialValidity={true}
+          />
+          <Input
+            id="city"
+            element="input"
+            type="text"
+            label="City or Town"
+            validators={[VALIDATOR_REQUIRE()]}
+            errorMessage="please enter a valid city"
+            onInput={inputHandler}
+            initialValue={loadedPlace.city}
             initialValidity={true}
           />
           <Button type="submit" disabled={!formState.isValid}>

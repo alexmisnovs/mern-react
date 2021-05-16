@@ -52,7 +52,6 @@ const Auth = props => {
             "Content-type": "application/json",
           }
         );
-        // console.log(responseData);
         authStateContext.login(responseData.userId, responseData.token);
       } catch (e) {
         console.log(e);
