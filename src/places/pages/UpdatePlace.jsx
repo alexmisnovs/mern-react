@@ -24,6 +24,10 @@ const UpdatePlace = props => {
         value: "",
         isValid: false,
       },
+      address: {
+        value: "",
+        isValid: false,
+      },
       description: {
         value: "",
         isValid: false,
@@ -45,6 +49,10 @@ const UpdatePlace = props => {
           {
             title: {
               value: loadedPlace.title,
+              isValid: true,
+            },
+            address: {
+              value: loadedPlace.address,
               isValid: true,
             },
             description: {
@@ -87,6 +95,7 @@ const UpdatePlace = props => {
         "PATCH",
         JSON.stringify({
           title: formState.inputs.title.value,
+          address: formState.inputs.address.value,
           description: formState.inputs.description.value,
         }),
         { "Content-Type": "application/json", Authorization: "Bearer " + authStateContext.token }
@@ -104,9 +113,9 @@ const UpdatePlace = props => {
             id="title"
             element="input"
             type="text"
-            label="title"
+            label="Title"
             validators={[VALIDATOR_REQUIRE()]}
-            errorMessage="please enter a valid title"
+            errorMessage="Please enter a valid title"
             onInput={inputHandler}
             initialValue={loadedPlace.title}
             initialValidity={true}
@@ -120,6 +129,17 @@ const UpdatePlace = props => {
             errorMessage="please enter a valid description"
             onInput={inputHandler}
             initialValue={loadedPlace.description}
+            initialValidity={true}
+          />
+          <Input
+            id="address"
+            element="input"
+            type="text"
+            label="Address or PostCode"
+            validators={[VALIDATOR_REQUIRE()]}
+            errorMessage="please enter a valid address"
+            onInput={inputHandler}
+            initialValue={loadedPlace.address}
             initialValidity={true}
           />
           <Button type="submit" disabled={!formState.isValid}>

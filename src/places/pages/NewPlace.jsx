@@ -69,7 +69,7 @@ const NewPlace = props => {
           id="title"
           element="input"
           type="text"
-          label="title"
+          label="Title"
           validators={[VALIDATOR_REQUIRE()]}
           errorMessage="please enter a valid title"
           onInput={inputHandler}
@@ -87,7 +87,7 @@ const NewPlace = props => {
           id="address"
           element="input"
           type="text"
-          label="Address"
+          label="Address or Post Code"
           validators={[VALIDATOR_REQUIRE()]}
           errorMessage="please enter a valid Address"
           onInput={inputHandler}
