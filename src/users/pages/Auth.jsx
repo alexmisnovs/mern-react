@@ -138,7 +138,7 @@ const Auth = props => {
             id="email"
             element="input"
             type="email"
-            label="email"
+            label="Email"
             validators={[VALIDATOR_EMAIL()]}
             errorMessage="please enter a valid email"
             onInput={inputHandler}

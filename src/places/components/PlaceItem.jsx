@@ -84,7 +84,8 @@ function PlaceItem(props) {
           </div>
           <div className="place-item__info">
             <h2>{props.title}</h2>
-            <h3>{props.address}</h3>
+            <h4>{props.address}</h4>
+            <h4>{props.city}</h4>
             <p>{props.desc}</p>
           </div>
           <div className="place-item__actions">

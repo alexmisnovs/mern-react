@@ -35,7 +35,7 @@ function MainNavigation(props) {
         </button>
 
         <h1 className="main-navigation__title">
-          <Link to="/">My weird App</Link>
+          <Link to="/">Playgrounder</Link>
         </h1>
 
         <nav className="main-navigation__header-nav">
