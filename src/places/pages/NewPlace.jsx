@@ -29,6 +29,10 @@ const NewPlace = props => {
         value: "",
         isValid: false,
       },
+      city: {
+        value: "",
+        isValid: false,
+      },
       image: {
         value: null,
         isValid: false,
@@ -48,9 +52,9 @@ const NewPlace = props => {
       formData.append("title", formState.inputs.title.value);
       formData.append("description", formState.inputs.description.value);
       formData.append("address", formState.inputs.address.value);
-      formData.append("creator", authStateContext.userId);
+      formData.append("city", formState.inputs.city.value);
       formData.append("image", formState.inputs.image.value);
-      await sendRequest("http://localhost:5000/api/v1/places", "POST", formData, {
+      await sendRequest(process.env.REACT_APP_BACKEND_URL + "/places", "POST", formData, {
         Authorization: "Bearer " + authStateContext.token,
       });
       history.push("/");
@@ -70,7 +74,7 @@ const NewPlace = props => {
           id="title"
           element="input"
           type="text"
-          label="title"
+          label="Title"
           validators={[VALIDATOR_REQUIRE()]}
           errorMessage="please enter a valid title"
           onInput={inputHandler}
@@ -88,9 +92,18 @@ const NewPlace = props => {
           id="address"
           element="input"
           type="text"
-          label="Address"
+          label="Address or Post Code"
           validators={[VALIDATOR_REQUIRE()]}
           errorMessage="please enter a valid Address"
+          onInput={inputHandler}
+        />
+        <Input
+          id="city"
+          element="input"
+          type="text"
+          label="City or Town"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorMessage="please enter a valid City"
           onInput={inputHandler}
         />
         <ImageUpload id="image" onInput={inputHandler} errorText="Please provide an image" />

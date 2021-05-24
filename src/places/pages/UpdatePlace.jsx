@@ -24,6 +24,10 @@ const UpdatePlace = props => {
         value: "",
         isValid: false,
       },
+      address: {
+        value: "",
+        isValid: false,
+      },
       description: {
         value: "",
         isValid: false,
@@ -35,14 +39,24 @@ const UpdatePlace = props => {
   useEffect(() => {
     const fetchPlace = async () => {
       try {
-        const responseData = await sendRequest(`http://localhost:5000/api/v1/places/${placeId}`);
-        console.log(responseData.place);
+        const responseData = await sendRequest(
+          `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`
+        );
+        // console.log(responseData.place);
         setLoadedPlace(responseData.place);
 
         setFormData(
           {
             title: {
               value: loadedPlace.title,
+              isValid: true,
+            },
+            address: {
+              value: loadedPlace.address,
+              isValid: true,
+            },
+            city: {
+              value: loadedPlace.city,
               isValid: true,
             },
             description: {
@@ -81,10 +95,12 @@ const UpdatePlace = props => {
     // send this to the backend.
     try {
       const responseData = await sendRequest(
-        `http://localhost:5000/api/v1/places/${placeId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`,
         "PATCH",
         JSON.stringify({
           title: formState.inputs.title.value,
+          address: formState.inputs.address.value,
+          city: formState.inputs.city.value,
           description: formState.inputs.description.value,
         }),
         { "Content-Type": "application/json", Authorization: "Bearer " + authStateContext.token }
@@ -102,9 +118,9 @@ const UpdatePlace = props => {
             id="title"
             element="input"
             type="text"
-            label="title"
+            label="Title"
             validators={[VALIDATOR_REQUIRE()]}
-            errorMessage="please enter a valid title"
+            errorMessage="Please enter a valid title"
             onInput={inputHandler}
             initialValue={loadedPlace.title}
             initialValidity={true}
@@ -118,6 +134,28 @@ const UpdatePlace = props => {
             errorMessage="please enter a valid description"
             onInput={inputHandler}
             initialValue={loadedPlace.description}
+            initialValidity={true}
+          />
+          <Input
+            id="address"
+            element="input"
+            type="text"
+            label="Address or PostCode"
+            validators={[VALIDATOR_REQUIRE()]}
+            errorMessage="please enter a valid address"
+            onInput={inputHandler}
+            initialValue={loadedPlace.address}
+            initialValidity={true}
+          />
+          <Input
+            id="city"
+            element="input"
+            type="text"
+            label="City or Town"
+            validators={[VALIDATOR_REQUIRE()]}
+            errorMessage="please enter a valid city"
+            onInput={inputHandler}
+            initialValue={loadedPlace.city}
             initialValidity={true}
           />
           <Button type="submit" disabled={!formState.isValid}>

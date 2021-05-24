@@ -42,7 +42,7 @@ const Auth = props => {
       try {
         // setError(null);
         const responseData = await sendRequest(
-          "http://localhost:5000/api/v1/users/login",
+          process.env.REACT_APP_BACKEND_URL + "/users/login",
           "POST",
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -52,7 +52,6 @@ const Auth = props => {
             "Content-type": "application/json",
           }
         );
-        // console.log(responseData);
         authStateContext.login(responseData.userId, responseData.token);
       } catch (e) {
         console.log(e);
@@ -67,7 +66,7 @@ const Auth = props => {
         formData.append("password", formState.inputs.password.value);
         formData.append("image", formState.inputs.image.value);
         const responseData = await sendRequest(
-          "http://localhost:5000/api/v1/users/signup",
+          process.env.REACT_APP_BACKEND_URL + "/users/signup",
           "POST",
           formData
         );
@@ -139,7 +138,7 @@ const Auth = props => {
             id="email"
             element="input"
             type="email"
-            label="email"
+            label="Email"
             validators={[VALIDATOR_EMAIL()]}
             errorMessage="please enter a valid email"
             onInput={inputHandler}
