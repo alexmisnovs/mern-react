@@ -94,7 +94,7 @@ const UpdatePlace = props => {
     event.preventDefault();
     // send this to the backend.
     try {
-      const responseData = await sendRequest(
+      await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`,
         "PATCH",
         JSON.stringify({

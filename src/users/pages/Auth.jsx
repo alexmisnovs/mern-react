@@ -37,7 +37,7 @@ const Auth = props => {
     e.preventDefault();
     // temporary lets set appWideIslogged in to true
     // return;
-    let responseData;
+
     if (isLoginMode) {
       try {
         // setError(null);
@@ -71,7 +71,6 @@ const Auth = props => {
           formData
         );
 
-        console.log(responseData);
         authStateContext.login(responseData.userId, responseData.token);
       } catch (e) {
         console.log(e);

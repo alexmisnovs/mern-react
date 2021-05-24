@@ -33,12 +33,9 @@ function PlaceItem(props) {
     setShowConfirmModal(false);
     // ACTUALLY DELETE THE PLACE
     try {
-      const responseData = await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/places/${props.id}`,
-        "DELETE",
-        null,
-        { Authorization: "Bearer " + authStateContext.token }
-      );
+      await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/places/${props.id}`, "DELETE", null, {
+        Authorization: "Bearer " + authStateContext.token,
+      });
       props.onDelete(props.id);
     } catch (error) {}
   };

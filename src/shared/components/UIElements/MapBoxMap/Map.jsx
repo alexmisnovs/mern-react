@@ -23,7 +23,7 @@ const Map = props => {
 
     // Add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
-    const marker = new mapboxgl.Marker().setLngLat([center.lng, center.lat]).addTo(map);
+    new mapboxgl.Marker().setLngLat([center.lng, center.lat]).addTo(map);
 
     // Clean up on unmount
     return () => map.remove();

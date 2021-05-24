@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import UsersList from "../components/UsersList";
 import ErrorModal from "../../shared/components/UIElements/LoadingError/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingError/LoadingSpinner";
 import { useHttpFetchClient } from "../../shared/hooks/http-fetch-hook";
 
 const Users = props => {
-  const { id } = useParams();
   const { isLoading, error, sendRequest, clearError } = useHttpFetchClient();
   const [loadedUsers, setLoadedUsers] = useState();
 
