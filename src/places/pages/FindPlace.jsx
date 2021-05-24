@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
+import PlaceList from "../components/PlaceList";
 import { VALIDATOR_REQUIRE } from "../../shared/utils/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpFetchClient } from "../../shared/hooks/http-fetch-hook";
@@ -26,16 +27,21 @@ const NewPlace = props => {
 
     //TODO finish search
     try {
-      let userId = 1;
+      const city = formState.inputs.city.value;
       const responseData = await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/places/user/${userId}`
+        `${process.env.REACT_APP_BACKEND_URL}/places/search/${city}`
       );
+      // console.log(responseData);
       setLoadedPlaces(responseData.places);
 
       //redirect to a different page
     } catch (e) {
       console.log(`Couldn't send request ${e}`);
     }
+  };
+
+  const deletedPlaceHandler = deletedPlaceId => {
+    setLoadedPlaces(prevPlaces => prevPlaces.filter(place => place.id !== deletedPlaceId));
   };
 
   return (
@@ -60,6 +66,10 @@ const NewPlace = props => {
           Search..
         </Button>
       </form>
+
+      {!isLoading && loadedPlaces && (
+        <PlaceList items={loadedPlaces} onDeletePlace={deletedPlaceHandler} />
+      )}
     </>
   );
 };

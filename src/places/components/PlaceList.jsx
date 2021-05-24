@@ -10,8 +10,8 @@ function PlaceList(props) {
     return (
       <div className="place-list center">
         <Card>
-          <h2>No places found.. Maybe add one</h2>
-          <Button to="/places/new">Share a Place</Button>
+          <h2>No playgounds found.. Maybe add one</h2>
+          <Button to="/places/new">Maybe you could add one ?</Button>
         </Card>
       </div>
     );
